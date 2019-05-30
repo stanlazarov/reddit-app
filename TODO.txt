@@ -1,0 +1,6 @@
+- Image supp doesnt work for text/html extensions
+- Form for searching for subreddit
+- Form for searching for redditor
+- Make redditor profile (showing comments)
+- Give href to links for redditor profile
+- Comment tree

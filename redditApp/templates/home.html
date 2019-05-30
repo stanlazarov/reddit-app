@@ -1,0 +1,15 @@
+{% extends "layout.html" %} {% block content%} {% for post in posts %} {% if not post.stickied %}
+<article class="card mb-4">
+    <div class="card-body">
+        <a class="mb-2" href="{{ url_for('open_subreddit', subreddit_name=post.subreddit) }}">r/{{ post.subreddit }}</a>
+        <div class="btn btn-sm ml-2 mb-2" style="background-color: #e6ffff">Score: {{post.score}}</div>
+        <h3 class="card-title"><a class="article-title" href="{{ url_for('post', post_id=post) }}">{{ post.title }}</a></h3>
+        {% if post.link_flair_text %}
+        <a class="btn btn-sm" style="background-color: #b3ffff" href="#">{{ post.link_flair_text }}</a> {% endif %}
+    </div>
+    <div class="card-footer text-muted .small" style="font-size: small">
+        Posted by <a class="mr-2" href="#">u/{{ post.author }}</a>{{ get_date(post) }} ago
+        <a class="btn btn-sm ml-2 mb-1 text-muted" style="font-size: small" href="{{ url_for('post', post_id=post) }}">{{ post.num_comments }} Comments</a>
+    </div>
+</article>
+{% endif %} {% endfor %} {% endblock content %}

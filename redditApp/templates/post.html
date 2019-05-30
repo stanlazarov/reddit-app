@@ -1,0 +1,28 @@
+{% extends "layout.html" %} {% block content%}
+<article class="card mb-4">
+    {% if img_source and not img_source == 'text/html' %}
+    <a href="{{ img_source }}" target="_blank">
+        <img class="card-img-top" src="{{ img_source }}" alt="post image">
+    </a> {% endif %}
+    <div class="card-body">
+        <a class="mb-2" href="{{ url_for('open_subreddit', subreddit_name=post.subreddit) }}">r/{{ post.subreddit }}</a>
+        <div class="btn btn-sm ml-2 mb-2" style="background-color: #e6ffff">Score: {{post.score}}</div>
+        <h3 class="card-title">
+            <div class="article-title" href="{{ url_for('post', post_id=post) }}">{{ post.title }}</div>
+        </h3>
+        <p class="card-text">{{ post.selftext }}</p>
+        {% if post.link_flair_text %}
+        <a class="btn btn-sm" style="background-color: #b3ffff" href="#">{{ post.link_flair_text }}</a> {% endif %}
+    </div>
+    <div class="card-footer text-muted" style="font-size: small">
+        <div>Posted by <a class="mr-2" href="#">u/{{ post.author }}</a>{{ get_date(post) }} ago</div>
+    </div>
+</article>
+{% for comment in post.comments(limit=30) %}
+<div class="card">
+    <pre class="text-muted card-header" style="font-size: small;background-color: rgba(228, 228, 228, 0.719);">Posted by <a class="mr-2" href="#">u/{{ comment.author }}</a>{{ get_date(comment) }} ago </pre>
+    <div class="card-body">
+        {{ comment.body }}
+    </div>
+</div>
+{% endfor %} {% endblock content %}
