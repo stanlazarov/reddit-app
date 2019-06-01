@@ -8,7 +8,7 @@
         <a class="btn btn-sm" style="background-color: #b3ffff" href="#">{{ post.link_flair_text }}</a> {% endif %}
     </div>
     <div class="card-footer text-muted .small" style="font-size: small">
-        Posted by <a class="mr-2" href="#">u/{{ post.author }}</a>{{ get_date(post) }} ago
+        Posted by <a class="mr-2" href="{{ url_for('redditor', redditor_name=post.author) }}">u/{{ post.author }}</a>{{ get_date(post) }} ago
         <a class="btn btn-sm ml-2 mb-1 text-muted" style="font-size: small" href="{{ url_for('post', post_id=post) }}">{{ post.num_comments }} Comments</a>
     </div>
 </article>

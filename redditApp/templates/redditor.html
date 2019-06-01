@@ -1,1 +1,12 @@
-{% extends "layout.html" %} {% block content%} {{ redditor }} {% endblock content %}
+{% extends "layout.html" %} {% block content%}
+<div>
+    Name: {{ redditor }}
+</div>
+<div>
+    karma: {{ redditor.comment_karma }}
+</div>
+<div>
+    created: {{ get_date(redditor) }} ago
+</div>
+
+asdasdwqe {% endblock content %}

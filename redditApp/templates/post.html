@@ -15,14 +15,21 @@
         <a class="btn btn-sm" style="background-color: #b3ffff" href="#">{{ post.link_flair_text }}</a> {% endif %}
     </div>
     <div class="card-footer text-muted" style="font-size: small">
-        <div>Posted by <a class="mr-2" href="#">u/{{ post.author }}</a>{{ get_date(post) }} ago</div>
+        <div>Posted by <a class="mr-2" href="{{ url_for('redditor', redditor_name=post.author) }}">u/{{ post.author }}</a>{{ get_date(post) }} ago</div>
     </div>
 </article>
-{% for comment in post.comments(limit=30) %}
+{% for comment in comments %}
 <div class="card">
-    <pre class="text-muted card-header" style="font-size: small;background-color: rgba(228, 228, 228, 0.719);">Posted by <a class="mr-2" href="#">u/{{ comment.author }}</a>{{ get_date(comment) }} ago </pre>
+    <pre class="text-muted card-header" style="font-size: small;background-color: rgba(228, 228, 228, 0.719);">Posted by <a class="mr-2" href="{{ url_for('redditor', redditor_name=comment.author) }}">u/{{ comment.author }}</a>{{ get_date(comment) }} ago </pre>
     <div class="card-body">
         {{ comment.body }}
     </div>
 </div>
-{% endfor %} {% endblock content %}
+{% endfor %}
+
+<div class="card ml-3">
+    <pre class="text-muted card-header" style="font-size: small;background-color: rgba(228, 228, 228, 0.719);">Posted by <a class="mr-2" href="#">u/asd</a>1 min ago </pre>
+    <div class="card-body">
+        oiufdjrhgeiruojghreiuogjerogijrgiojreg
+    </div>
+</div>{% endblock content %}

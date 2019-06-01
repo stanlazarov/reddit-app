@@ -1,5 +1,5 @@
 from redditApp import app, reddit
-from redditApp.utility import get_time_elapsed
+from redditApp.utility import get_time_elapsed, get_comments
 from flask import flash, redirect, render_template, url_for
 import mimetypes
 
@@ -21,8 +21,13 @@ def about():
 @app.route('/post/<post_id>')
 def post(post_id):
     post = reddit.submission(id=post_id)
-    #post.comments.replace_more()
+    comments = get_comments(post, 30)
     img_source = None
     if mimetypes.guess_type(post.url)[0]:
         img_source = post.url
-    return render_template('post.html', post=post, img_source=img_source, get_date=get_time_elapsed)
+    return render_template('post.html', post=post, img_source=img_source, get_date=get_time_elapsed, comments=comments)
+
+@app.route("/u/<redditor_name>")
+def redditor(redditor_name):
+    redditor = reddit.redditor(redditor_name)
+    return render_template('redditor.html', redditor=redditor, get_date=get_time_elapsed)
