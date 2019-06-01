@@ -1,5 +1,6 @@
 import datetime, time
-from redditApp import praw
+from redditApp import praw, reddit
+from prawcore import NotFound
 
 def get_time_elapsed(submission):
     created_unix = submission.created_utc
@@ -21,7 +22,7 @@ def get_time_elapsed(submission):
         return str(weeks_elapsed) + (' weeks' if not weeks_elapsed == 1 else ' week')
     months_elapsed = days_elapsed // 30
     if days_elapsed < 365:
-        return str(month_elapsed) + (' month' if not months_elapsed == 1 else ' month')
+        return str(months_elapsed) + (' month' if not months_elapsed == 1 else ' month')
     years_elapsed = days_elapsed // 365
     return str(years_elapsed) + ' years'
 
@@ -36,3 +37,11 @@ def get_comments(submission, n):
         comments.append(comment)
         i += 1
     return comments
+
+def sub_exists(sub):
+    exists = True
+    try:
+        reddit.subreddits.search_by_name(sub, exact=True)
+    except NotFound:
+        exists = False
+    return exists
