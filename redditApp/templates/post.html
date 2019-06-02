@@ -18,8 +18,9 @@
         <div>Posted by <a class="mr-2" href="{{ url_for('redditor', redditor_name=post.author) }}">u/{{ post.author }}</a>{{ get_date(post) }} ago</div>
     </div>
 </article>
+
 {% for comment in comments %}
-<div class="card">
+<div class="card mb-3">
     <pre class="text-muted card-header" style="font-size: small;background-color: rgba(228, 228, 228, 0.719);">Posted by <a class="mr-2" href="{{ url_for('redditor', redditor_name=comment.author) }}">u/{{ comment.author }}</a>{{ get_date(comment) }} ago </pre>
     <div class="card-body">
         {{ comment.body }}

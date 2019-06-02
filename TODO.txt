@@ -1,5 +1,4 @@
-- Image supp doesnt work for text/html extensions
-- Form for searching for redditor
-- Make redditor profile look good and show comments
-- Fix error for deleted accounts
+- Redditor comments score and submission
 - Comment tree
+- Image supp doesnt work for text/html extensions
+- Fix error for deleted accounts

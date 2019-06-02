@@ -1,6 +1,6 @@
 from redditApp import app, reddit
-from redditApp.utility import get_time_elapsed, get_comments, sub_exists
-from redditApp.forms import SearchForSubredditForm
+from redditApp.utility import get_time_elapsed, get_submission_comments, sub_exists, redditor_exists, format_img_link, get_redditor_comments
+from redditApp.forms import SearchForSubredditForm, SearchForRedditorForm
 from flask import flash, request, redirect, render_template, url_for
 import mimetypes
 
@@ -22,7 +22,7 @@ def about():
 @app.route('/post/<post_id>')
 def post(post_id):
     post = reddit.submission(id=post_id)
-    comments = get_comments(post, 30)
+    comments = get_submission_comments(post, 30)
     img_source = None
     if mimetypes.guess_type(post.url)[0]:
         img_source = post.url
@@ -31,7 +31,9 @@ def post(post_id):
 @app.route("/u/<redditor_name>")
 def redditor(redditor_name):
     redditor = reddit.redditor(redditor_name)
-    return render_template('redditor.html', redditor=redditor, get_date=get_time_elapsed, title=redditor.name)
+    comments = get_redditor_comments(redditor, 30)
+    avatar_link = format_img_link(redditor.icon_img)
+    return render_template('redditor.html', redditor=redditor, get_date=get_time_elapsed, avatar=avatar_link, title=redditor.name, comments=comments)
 
 @app.route("/search/subreddit", methods=['GET', 'POST'])
 def search_for_subreddit():
@@ -40,6 +42,16 @@ def search_for_subreddit():
         if sub_exists(form.search.data):
             return redirect(url_for('open_subreddit', subreddit_name=form.search.data))
         else:
-            flash('A subreddit with that name does not exist.', 'danger')
+            flash("A subreddit with the name " + "'" + form.search.data + "'" +  " does not exist.", 'danger')
     return render_template('search.html', title='Subreddit search', form=form)
+
+@app.route("/search/redditor", methods=['GET', 'POST'])
+def search_for_redditor():
+    form = SearchForRedditorForm()
+    if form.validate_on_submit():
+        if redditor_exists(form.search.data):
+            return redirect(url_for('redditor', redditor_name=form.search.data))
+        else:
+            flash("A redditor with the name " + "'" + form.search.data + "'" +  " does not exist.", 'danger')
+    return render_template('search.html', title='Redditor search', form=form)
     

@@ -18,7 +18,7 @@ def get_time_elapsed(submission):
     if days_elapsed < 7:
         return str(days_elapsed) + (' days' if not days_elapsed == 1 else ' day')
     weeks_elapsed = days_elapsed // 7
-    if hours_elapsed < 30:
+    if days_elapsed < 30:
         return str(weeks_elapsed) + (' weeks' if not weeks_elapsed == 1 else ' week')
     months_elapsed = days_elapsed // 30
     if days_elapsed < 365:
@@ -26,7 +26,7 @@ def get_time_elapsed(submission):
     years_elapsed = days_elapsed // 365
     return str(years_elapsed) + ' years'
 
-def get_comments(submission, n):
+def get_submission_comments(submission, n):
     comments = []
     i = 1
     for comment in submission.comments:
@@ -38,6 +38,17 @@ def get_comments(submission, n):
         i += 1
     return comments
 
+
+def get_redditor_comments(redditor, n):
+    comments = []
+    i = 1
+    for comment in redditor.comments.new():
+        if i >= n:
+            break
+        comments.append(comment)
+        i += 1
+    return comments
+
 def sub_exists(sub):
     exists = True
     try:
@@ -45,3 +56,17 @@ def sub_exists(sub):
     except NotFound:
         exists = False
     return exists
+
+def redditor_exists(name):
+    exists = True
+    try:
+        redditor = reddit.redditor(name)
+        redditor.created_utc
+    except NotFound:
+        exists = False
+    return exists
+
+def format_img_link(link):
+    if '?' in link:
+        return link.split('?')[0]
+    return link
