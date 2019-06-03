@@ -1,6 +1,7 @@
-import datetime, time
+import datetime, time, sys
 from redditApp import praw, reddit
 from prawcore import NotFound
+from praw.models import Redditor
 
 def get_time_elapsed(submission):
     created_unix = submission.created_utc
@@ -63,6 +64,8 @@ def redditor_exists(name):
         redditor = reddit.redditor(name)
         redditor.created_utc
     except NotFound:
+        exists = False
+    except TypeError:
         exists = False
     return exists
 

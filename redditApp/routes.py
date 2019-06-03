@@ -1,5 +1,5 @@
 from redditApp import app, reddit
-from redditApp.utility import get_time_elapsed, get_submission_comments, sub_exists, redditor_exists, format_img_link, get_redditor_comments
+from redditApp.utility import get_time_elapsed, get_submission_comments, sub_exists, redditor_exists, format_img_link, get_redditor_comments, redditor_exists
 from redditApp.forms import SearchForSubredditForm, SearchForRedditorForm
 from flask import flash, request, redirect, render_template, url_for
 import mimetypes
@@ -8,12 +8,12 @@ import mimetypes
 @app.route('/home')
 def home():
     posts = reddit.front.hot(limit=30)
-    return render_template("home.html", posts=posts, title="Home", get_date=get_time_elapsed)
+    return render_template("home.html", posts=posts, title="Home", get_date=get_time_elapsed, redditor_exists=redditor_exists)
 
 @app.route("/r/<subreddit_name>")
 def open_subreddit(subreddit_name):
     posts = reddit.subreddit(subreddit_name).hot(limit=30)
-    return render_template("home.html", posts=posts, title=subreddit_name, get_date=get_time_elapsed)
+    return render_template("home.html", posts=posts, title=subreddit_name, get_date=get_time_elapsed, redditor_exists=redditor_exists)
 
 @app.route("/about")
 def about():
@@ -24,9 +24,10 @@ def post(post_id):
     post = reddit.submission(id=post_id)
     comments = get_submission_comments(post, 30)
     img_source = None
+    link_source = None
     if mimetypes.guess_type(post.url)[0]:
         img_source = post.url
-    return render_template('post.html', post=post, img_source=img_source, get_date=get_time_elapsed, comments=comments, title=post.title)
+    return render_template('post.html', post=post, img_source=img_source, get_date=get_time_elapsed, comments=comments, title=post.title, redditor_exists=redditor_exists)
 
 @app.route("/u/<redditor_name>")
 def redditor(redditor_name):
