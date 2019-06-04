@@ -26,19 +26,19 @@
         {{ comment.body }}
     </div>
 </div>
-<!-- 
-{% for comment2 in comment.replies %}
-<div class="card ml-3">
+<!-- -->
+{% for comment2 in comment.replies %} {% if is_valid_comment(comment2) and loop.index
+< 5 %} <div class="card ml-3">
     <pre class="text-muted card-header" style="font-size: small;background-color: rgba(228, 228, 228, 0.719);">Posted by {% if redditor_exists(comment2.author.name) %}<a class="mr-2" href="{{ url_for('redditor', redditor_name=comment2.author) }}">u/{{ comment2.author }}</a>{% else %}[deleted] {% endif %}{{ get_date(comment2) }} ago  <div class="btn btn-sm text-muted test-sm">Score: {{comment2.score}}</div></pre>
     <div class="card-body">
         {{ comment2.body }}
     </div>
-</div>
-{% for comment3 in comment2.replies %}
-<div class="card ml-5">
-    <pre class="text-muted card-header" style="font-size: small;background-color: rgba(228, 228, 228, 0.719);">Posted by {% if redditor_exists(comment3.author.name) %}<a class="mr-2" href="{{ url_for('redditor', redditor_name=comment2.author) }}">u/{{ comment3.author }}</a>{% else %}[deleted] {% endif %}{{ get_date(comment3) }} ago  <div class="btn btn-sm text-muted test-sm">Score: {{comment3.score}}</div></pre>
-    <div class="card-body">
-        {{ comment3.body }}
     </div>
-</div>
-{% endfor %} {% endfor %} -->{% endfor %} {% endblock content %}
+    {% for comment3 in comment2.replies %} {% if is_valid_comment(comment3) and loop.index
+    < 5%} <div class="card ml-5">
+        <pre class="text-muted card-header" style="font-size: small;background-color: rgba(228, 228, 228, 0.719);">Posted by {% if redditor_exists(comment3.author.name) %}<a class="mr-2" href="{{ url_for('redditor', redditor_name=comment2.author) }}">u/{{ comment3.author }}</a>{% else %}[deleted] {% endif %}{{ get_date(comment3) }} ago  <div class="btn btn-sm text-muted test-sm">Score: {{comment3.score}}</div></pre>
+        <div class="card-body">
+            {{ comment3.body }}
+        </div>
+        </div>
+        {% endif %} {% endfor %} {% endif %}{% endfor %}{% endfor %} {% endblock content %}

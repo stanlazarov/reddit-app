@@ -39,6 +39,12 @@ def get_submission_comments(submission, n):
         i += 1
     return comments
 
+def is_valid_comment(comment):
+    if isinstance(comment, praw.models.MoreComments):
+        return False
+    if isinstance(comment, praw.models.comment_forest.CommentForest):
+        return False
+    return True
 
 def get_redditor_comments(redditor, n):
     comments = []

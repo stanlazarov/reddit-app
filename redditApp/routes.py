@@ -1,5 +1,5 @@
 from redditApp import app, reddit
-from redditApp.utility import get_time_elapsed, get_submission_comments, sub_exists, redditor_exists, format_img_link, get_redditor_comments, redditor_exists
+from redditApp.utility import get_time_elapsed, get_submission_comments, sub_exists, redditor_exists, format_img_link, get_redditor_comments, redditor_exists, is_valid_comment
 from redditApp.forms import SearchForSubredditForm, SearchForRedditorForm
 from flask import flash, request, redirect, render_template, url_for
 import mimetypes
@@ -22,12 +22,12 @@ def about():
 @app.route('/post/<post_id>')
 def post(post_id):
     post = reddit.submission(id=post_id)
-    comments = get_submission_comments(post, 30)
+    comments = get_submission_comments(post, 20)
     img_source = None
     link_source = None
     if mimetypes.guess_type(post.url)[0]:
         img_source = post.url
-    return render_template('post.html', post=post, img_source=img_source, get_date=get_time_elapsed, comments=comments, title=post.title, redditor_exists=redditor_exists)
+    return render_template('post.html', post=post, img_source=img_source, get_date=get_time_elapsed, comments=comments, title=post.title, redditor_exists=redditor_exists, is_valid_comment=is_valid_comment)
 
 @app.route("/u/<redditor_name>")
 def redditor(redditor_name):
