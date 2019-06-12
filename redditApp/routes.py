@@ -7,12 +7,12 @@ import mimetypes
 @app.route("/")
 @app.route('/home')
 def home():
-    posts = reddit.front.hot(limit=30)
+    posts = reddit.front.hot(limit=15)
     return render_template("home.html", posts=posts, title="Home", get_date=get_time_elapsed, redditor_exists=redditor_exists)
 
 @app.route("/r/<subreddit_name>")
 def open_subreddit(subreddit_name):
-    posts = reddit.subreddit(subreddit_name).hot(limit=30)
+    posts = reddit.subreddit(subreddit_name).hot(limit=15)
     return render_template("home.html", posts=posts, title=subreddit_name, get_date=get_time_elapsed, redditor_exists=redditor_exists)
 
 @app.route("/about")
@@ -22,7 +22,7 @@ def about():
 @app.route('/post/<post_id>')
 def post(post_id):
     post = reddit.submission(id=post_id)
-    comments = get_submission_comments(post, 20)
+    comments = get_submission_comments(post, 10)
     img_source = None
     link_source = None
     if mimetypes.guess_type(post.url)[0]:
@@ -32,7 +32,7 @@ def post(post_id):
 @app.route("/u/<redditor_name>")
 def redditor(redditor_name):
     redditor = reddit.redditor(redditor_name)
-    comments = get_redditor_comments(redditor, 30)
+    comments = get_redditor_comments(redditor, 10)
     avatar_link = format_img_link(redditor.icon_img)
     return render_template('redditor.html', redditor=redditor, get_date=get_time_elapsed, avatar=avatar_link, title=redditor.name, comments=comments)
 
