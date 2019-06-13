@@ -1,2 +1,0 @@
-- Comment tree
-- Image supp doesnt work for text/html extensions
