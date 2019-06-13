@@ -10,7 +10,7 @@
     </div>
 </div>
 
-{% for comment in redditor.comments.new() %}
+{% for comment in comments %}
 <div class="card mb-3">
     <pre class="text-muted card-header" style="font-size: small;background-color: rgba(228, 228, 228, 0.719);">Posted {{ get_date(comment) }} ago in a <a href="{{ url_for('post', post_id=comment.submission) }}" class="">thread</a> in <a class="mr-2" href="{{ url_for('open_subreddit', subreddit_name=comment.submission.subreddit) }}">r/{{ comment.submission.subreddit }}</a> <div class="btn btn-sm text-muted test-sm">Score: {{comment.score}}</div></pre>
     <div class="card-body">
